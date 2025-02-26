@@ -1,16 +1,33 @@
-export function valida(input) {
-    const tipoDeInput = input.dataset.tipo
+// export function valida(input) {
+//     const tipoDeInput = input.dataset.tipo
 
-    if(validadores[tipoDeInput]) {
-        validadores[tipoDeInput](input)
+//     if(validadores[tipoDeInput]) {
+//         validadores[tipoDeInput](input)
+//     }
+
+//     if(input.validity.valid) {
+//         input.parentElement.classList.remove('input-container--invalido')
+//         input.parentElement.querySelector('.input-mensagem-erro').innerHTML = ''
+//     } else {
+//         input.parentElement.classList.add('input-container--invalido')
+//         input.parentElement.querySelector('.input-mensagem-erro').innerHTML = mostraMensagemDeErro(tipoDeInput, input)
+//     }
+// }
+
+
+export function valida(input) {
+    const tipoDeInput = input.dataset.tipo;
+
+    if (validadores[tipoDeInput]) {
+        validadores[tipoDeInput](input);
     }
 
-    if(input.validity.valid) {
-        input.parentElement.classList.remove('input-container--invalido')
-        input.parentElement.querySelector('.input-mensagem-erro').innerHTML = ''
+    if (!input.validity.valid) {
+        input.parentElement.classList.add('input-container--invalido');
+        input.nextElementSibling.textContent = mostrarMensagemErro(tipoDeInput, input);
     } else {
-        input.parentElement.classList.add('input-container--invalido')
-        input.parentElement.querySelector('.input-mensagem-erro').innerHTML = mostraMensagemDeErro(tipoDeInput, input)
+        input.parentElement.classList.remove('input-container--invalido');
+        input.nextElementSibling.textContent = "";
     }
 }
 
@@ -54,13 +71,24 @@ const mensagensDeErro = {
     },
     estado: {
         valueMissing: 'O campo de estado não pode estar vazio.'
+    },
+    telefone: {
+        valueMissing: 'O campo de telefone não pode estar vazio.',
+        patternMismatch: 'O telefone deve estar no formato correto, como (83)99131-3434 ou 83991313434.',
+        customError: 'DDD inválido ou número incorreto.'
+    },
+    instagram: {
+        valueMissing: 'O campo de Instagram não pode estar vazio.',
+        patternMismatch: 'O nome de usuário do Instagram deve começar com @ e conter apenas letras, números, pontos e underlines.'
     }
 }
 
 const validadores = {
     dataNascimento:input => validaDataNascimento(input),
     cpf:input => validaCPF(input),
-    cep:input => recuperarCEP(input)
+    cep:input => recuperarCEP(input),
+    telefone:input => validaTelefone(input),
+    instagram:input => validaInstagram(input)
 }
 
 function mostraMensagemDeErro(tipoDeInput, input) {
@@ -83,6 +111,57 @@ function validaDataNascimento(input) {
     }
 
     input.setCustomValidity(mensagem)
+}
+
+
+// function validaTelefone(input) {
+//     const regexTelefone = /^(\(?\d{2}\)?\s?)?(\d{4,5}-?\d{4})$/;
+//     const telefone = input.value.trim();
+
+//     if (!regexTelefone.test(telefone)) {
+//         input.setCustomValidity("Formato inválido. Ex: (83)99131-3434 ou 83991313434");
+//     } else {
+//         input.setCustomValidity("");
+//     }
+// }
+
+function validaTelefone(input) {
+    const regexTelefone = /^(\(?([1-9]{2})\)?\s?)?(9\d{4}-?\d{4})$/;
+    const telefone = input.value.trim();
+    const dddValidos = [
+        "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "24",
+        "27", "28", "31", "32", "33", "34", "35", "37", "38", "41", "42", "43",
+        "44", "45", "46", "47", "48", "49", "51", "53", "54", "55", "61", "62",
+        "63", "64", "65", "66", "67", "68", "69", "71", "73", "74", "75", "77",
+        "79", "81", "82", "83", "84", "85", "86", "87", "88", "89", "91", "92",
+        "93", "94", "95", "96", "97", "98", "99"
+    ];
+
+    const match = telefone.match(regexTelefone);
+    if (!match) {
+        input.setCustomValidity("Formato inválido. Ex: (83)99131-3434 ou 83991313434");
+        return;
+    }
+
+    const ddd = match[2]; 
+    if (ddd && !dddValidos.includes(ddd)) {
+        input.setCustomValidity("DDD inválido.");
+        return;
+    }
+
+    input.setCustomValidity("");
+}
+
+
+function validaInstagram(input) {
+    const regexInstagram = /^@\w{3,}$/;
+    const instagram = input.value.trim();
+
+    if (!regexInstagram.test(instagram)) {
+        input.setCustomValidity("O Instagram deve começar com '@' seguido de pelo menos 3 caracteres.");
+    } else {
+        input.setCustomValidity("");
+    }
 }
 
 function maiorQue18(data) {

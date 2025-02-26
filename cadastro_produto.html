@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -49,5 +49,121 @@
             </form>
         </section>
     </main>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doguito Petshop | Cadastro de produto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="./assets/css/base/base.css">
+    <link rel="stylesheet" href="./assets/css/componentes/cabecalho.css">
+    <link rel="stylesheet" href="./assets/css/componentes/cartao.css">
+    <link rel="stylesheet" href="./assets/css/cadastra_cliente.css">
+    <link rel="stylesheet" href="./assets/css/componentes/inputs.css">
+    <link rel="stylesheet" href="./assets/css/componentes/botao.css">
+    <link rel="stylesheet" href="./assets/css/cadastro_produto.css">
+    <script type="text/javascript" src="bib/simple-mask-money.umd.js"></script>
+</head>
+<body>
+    <header class="cabecalho container">
+        <img src="./assets/img/doguitoadm.svg" alt="Logo Doguito" class="cabecalho__logo">
+        <nav>
+            <ul class="cabecalho__lista-navegacao">
+                <li class="cabecalho__link"><a href="#">Dashboard</a></li>
+                <li class="cabecalho__link"><a href="#">Produtos</a></li>
+                <li class="cabecalho__link"><a href="lista_cliente.html">Clientes</a></li>
+                <li class="cabecalho__link"><a href="#">Pets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container flex flex--centro flex--coluna">
+        <section class="cartao cadastro">
+            <h1 class="cartao__titulo">Cadastrar um produto</h1>
+            <form id="cadastroProdutoForm" action="./cadastro_produto_concluido.html" class="flex flex--coluna">
+                <div class="input-container">
+                    <input name="nome" id="nome" class="input" type="text" placeholder="Nome" required>
+                    <label class="input-label" for="nome">Nome</label>
+                    <span class="input-mensagem-erro" id="erroNome">Este campo não pode estar vazio!</span>
+                </div>
+
+                <div class="input-container cadastro__preco-container">
+                    <input name="preco" id="preco" class="input" type="text" placeholder="Preço" required oninput="maskMoney(this)">
+                    <label class="input-label" for="preco">Preço</label>
+                    <span class="input-mensagem-erro" id="erroPreco">Este campo não pode estar vazio!</span>
+                </div>
+
+                <div class="input-container cadastro__descricao-container">
+                    <input class="input" name="descricao" id="descricao" placeholder="Descrição" required>
+                    <label class="input-label" for="descricao">Descrição</label>
+                    <span class="input-mensagem-erro" id="erroDescricao">Este campo não pode estar vazio!</span>
+                </div>
+
+                <div class="input-container cadastro__quantidade-container">
+                    <input name="quantidade" id="quantidade" class="input" type="number" placeholder="Quantidade em Estoque" required>
+                    <label class="input-label" for="quantidade">Quantidade em Estoque</label>
+                    <span class="input-mensagem-erro" id="erroQuantidade">Este campo não pode estar vazio!</span>
+                </div>
+
+                <button class="botao" type="submit">Cadastrar produto</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function maskMoney(input) {
+            const optionsBRL = {
+                allowNegative: false,
+                beforeFormat(e) { console.log('beforeFormat', e); },
+                negativeSignAfter: false,
+                prefix: 'R$ ',
+                suffix: '',
+                fixed: true,
+                fractionDigits: 2,
+                decimalSeparator: ',',
+                thousandsSeparator: '.',
+                cursor: 'end'
+            };
+
+            SimpleMaskMoney.setMask(input, optionsBRL);
+        }
+
+        document.getElementById("cadastroProdutoForm").addEventListener("submit", function(event) {
+            var nome = document.getElementById("nome").value;
+            var preco = document.getElementById("preco").value;
+            var descricao = document.getElementById("descricao").value;
+            var quantidade = document.getElementById("quantidade").value;
+
+            if (nome.trim() === "") {
+                alert("O campo Nome não pode estar vazio!");
+                event.preventDefault();
+                return;
+            }
+
+            if (preco.trim() === "") {
+                alert("O campo Preço não pode estar vazio!");
+                event.preventDefault();
+                return;
+            }
+
+            if (descricao.trim() === "") {
+                alert("O campo Descrição não pode estar vazio!");
+                event.preventDefault();
+                return;
+            }
+
+            if (quantidade.trim() === "") {
+                alert("O campo Quantidade não pode estar vazio!");
+                event.preventDefault();
+                return;
+            }
+        });
+    </script>
 </body>
 </html>

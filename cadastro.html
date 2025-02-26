@@ -58,6 +58,27 @@
                         <label class="input-label" for="cpf">CPF</label>
                         <span class="input-mensagem-erro">Este campo não está válido</span>
                     </div>
+
+                    <!-- Telefone -->
+                    <div class="input-container">
+                        <input name="telefone" id="telefone" class="input" type="text" placeholder="Telefone" 
+                            pattern="(\(?\d{2}\)?\s?)?(\d{4,5}\-?\d{4})" 
+                            title="Digite um telefone válido: (83)99131-3434 ou 83991313434" 
+                            data-tipo="telefone" required>
+                        <label class="input-label" for="telefone">Telefone</label>
+                        <span class="input-mensagem-erro">Este campo não está válido</span>
+                    </div>
+
+                    <!--Instagram -->
+                    <div class="input-container">
+                        <input name="instagram" id="instagram" class="input" type="text" placeholder="Instagram" 
+                            pattern="@\w{3,}" 
+                            title="O Instagram deve começar com '@' seguido de pelo menos 3 caracteres" 
+                            data-tipo="instagram" required>
+                        <label class="input-label" for="instagram">Instagram</label>
+                        <span class="input-mensagem-erro">Este campo não está válido</span>
+                    </div>
+
                 </fieldset>
                 <fieldset>
                     <legend class="formulario__legenda">Endereço</legend>
